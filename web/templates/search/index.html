@@ -1,0 +1,25 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="{% static "jquery-2.2.0.min.js" %}"></script>
+    <script src="{% static "script.js" %}"></script>
+</head>
+<style>
+    .img-result {
+        width: 320px;
+        height: 180px;
+        margin: 6px;
+    }
+</style>
+<body>
+    <form enctype="multipart/form-data" action="#" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit">
+    </form>
+    <div id="result"></div>
+</body>
+</html>
