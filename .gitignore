@@ -1,4 +1,4 @@
-
 *.pyc
-
 *.npy
+Images/*
+.DS_Store
