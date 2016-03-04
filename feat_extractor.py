@@ -32,7 +32,7 @@ class FeatExtractor(caffe.Net):
         self.crop_dim = crop_dim
         self.mean = mean
         self.oversample = oversample
-        self.batch_size = 64  # hard coded, same as oversample patches
+        self.batch_size = 128  # hard coded, same as oversample patches
 
     def extract(self, imgs, blobs=['fc6', 'fc7']):
         feats = {}
@@ -85,14 +85,22 @@ class FeatExtractor(caffe.Net):
 
 def get_image_names():
     import imghdr
+    import cv2
     image_names = []
-    for dirname in os.listdir('Images'):
-        dirname = 'Images/' + dirname
-        if os.path.isdir(dirname):
-            for img in os.listdir(dirname):
-                filename = dirname + '/' + img
-                if imghdr.what(filename) is not None:
-                    image_names.append(filename)
+    count = 0
+    for dirname1 in os.listdir('Images'):
+        dirname1 = 'Images/' + dirname1
+        if os.path.isdir(dirname1):
+            for dirname2 in os.listdir(dirname1):
+                dirname2 = dirname1 + '/' + dirname2
+                if (os.path.isdir(dirname2)):
+                    for img in os.listdir(dirname2):
+                        filename = dirname2 + '/' + img
+                        if cv2.imread(filename) is not None:
+                            image_names.append(filename)
+                            count += 1
+                            if count % 10000 == 0:
+                                print count
     return image_names
 
 

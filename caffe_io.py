@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-import hdf5storage
+#import hdf5storage
 
 # This should be written as a IO module
 # Load image, preprocess image
@@ -30,8 +30,8 @@ def load_video(vid_name, sample_per_sec = 1):
   cap.release()
   return frames
 
-def save_matrix(mat, output_path):
-  hdf5storage.savemat(output_path, mat)
+#def save_matrix(mat, output_path):
+#  hdf5storage.savemat(output_path, mat)
 
 # Default parameters are for VGG net
 # Input: Height x Width x Channel

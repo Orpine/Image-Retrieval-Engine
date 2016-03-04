@@ -6,7 +6,7 @@ class engine:
     
     def __init__(self):
         self.loaded = False
-        caffe.set_mode_cpu()
+        caffe.set_mode_gpu()
         model_file = 'caffe_models/vgg_16/VGG_ILSVRC_16_layers_deploy.prototxt'
         pretrained_file = 'caffe_models/vgg_16/VGG_ILSVRC_16_layers.caffemodel'
         start = time.time()
@@ -14,10 +14,10 @@ class engine:
         print 'intitialization time:', time.time() - start
     
     def build(self):
-        feat_extract(5000, self.extractor) # 5000 = batch_size
+        feat_extract(100000, self.extractor) # 5000 = batch_size
 
     def encode(self):
-        X = np.load('feats_total_4096.npy')
+        X = np.load('feats_total_4096_trunc.npy')
         sda = SdAWrapper(X)
         np.save('sda_model', sda)
         y = sda.get_lowest_hidden_values(X)
@@ -27,13 +27,13 @@ class engine:
 
     def init(self, load = False):
         if not load:
-            build()
-            encode()
+            self.build()
+            self.encode()
         else:
             self.sda = np.load('sda_model.npy').all()
-            self.feats_4096 = np.load('feats_total_4096.npy')
+            self.feats_4096 = np.load('feats_total_4096_trunc.npy')
             self.feats_64 = np.load('feats_total_64.npy')
-            self.filename = np.load('filename.npy')
+            self.filename = np.load('filename_trunc.npy')
             self.loaded = True
     
     def get_feat(self, img):
@@ -55,3 +55,9 @@ class engine:
         else:
             dis = cdist([feat], self.feats_4096, metric)
         return json.dumps(dict(zip(range(100), self.filename[np.argsort(dis)[0][0:100]])), indent=4, separators=(',', ': '))
+
+if __name__ == "__main__":
+    image_engine = engine()
+    #image_engine.init()
+    #image_engine.encode()
+

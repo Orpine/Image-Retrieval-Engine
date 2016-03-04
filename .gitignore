@@ -2,3 +2,4 @@
 *.npy
 Images/*
 .DS_Store
+caffe_models
