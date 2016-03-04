@@ -3,3 +3,5 @@
 Images/*
 .DS_Store
 caffe_models
+web/.idea
+web/upload/*
